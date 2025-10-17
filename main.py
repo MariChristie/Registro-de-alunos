@@ -58,3 +58,7 @@ def register_student(self, student):
 
 # Criando uma instância do sistema de registro
 sistema_de_registro = SistemadeRegistro()
+
+# information
+
+studant = ("Joao", "email")
