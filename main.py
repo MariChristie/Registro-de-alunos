@@ -14,15 +14,15 @@ class SistemadeRegistro:
                        Email TEXT NOT NULL,
                        tel TEXT NOT NULL,
                        sex TEXT NOT NULL,
-                       date of birth Text NOT NULL,
+                       date_of_birth Text NOT NULL,
                        address TEXT NOT NULL,
                        course text NOT NULL,
                        picture TEXT NOT NULL)''')
         
-def register_student(self, student):
-    self.c.execute("INSERT INTO students(name, email, tel, sex, date_of_birth, address, course, picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                   (student))
-    self.conn.commit()
+    def register_student(self, student):
+        self.c.execute("INSERT INTO students(name, email, tel, sex, date_of_birth, address, course, picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    student)
+        self.conn.commit()
 
     #mostrando mensagem de sucesso
     messagebox.showinfo("Sucess", "Student registered successfully!")
@@ -41,7 +41,7 @@ def register_student(self, student):
         print(f'ID: {dados[0]} | Name: {dados[1]} | Email: {dados[2]} | Tel: {dados[3]} | Sex: {dados[4]} | Date of Birth: {dados[5]} | Address: {dados[6]} | Course: {dados[7]} | Picture: {dados[8]}')
 
     def update_student(self, nova_valores):
-        query = "UPDATE students SET name=?, email=?, tel=?, sex-?, data_of_birth=?, address=?, course=?, picture=? WHERE id=?"
+        query = "UPDATE students SET name=?, email=?, tel=?, sex=?, data_of_birth=?, address=?, course=?, picture=? WHERE id=?"
         self.c.execute(query, nova_valores)
         self.conn.commit()
 
@@ -61,4 +61,6 @@ sistema_de_registro = SistemadeRegistro()
 
 # information
 
-studant = ("Joao", "email")
+studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg')
+
+sistema_de_registro.register_student(studant)
