@@ -30,7 +30,6 @@ class SistemadeRegistro:
     def view_all_students(self):
         self.c.execute("SELECT * FROM students")
         dados = self.c.fetchall()
-
         for i in dados:
             print(f'ID: {i[0]} | Name: {i[1]} | Email: {i[2]} | Tel: {i[3]} | Sex: {i[4]} | Date of Birth: {i[5]} | Address: {i[6]} | Course: {i[7]} | Picture: {i[8]}')
         
@@ -38,10 +37,10 @@ class SistemadeRegistro:
         self.c.execute("SELECT * FROM students WHERE id=?", (id,))
         dados = self.c.fetchall()
 
-        print(f'ID: {dados[0]} | Name: {dados[1]} | Email: {dados[2]} | Tel: {dados[3]} | Sex: {dados[4]} | Date of Birth: {dados[5]} | Address: {dados[6]} | Course: {dados[7]} | Picture: {dados[8]}')
+        print(f'ID: {dados[0][0]} | Name: {dados[0][1]} | Email: {dados[0][2]} | Tel: {dados[0][3]} | Sex: {dados[0][4]} | Date of Birth: {dados[0][5]} | Address: {dados[0][6]} | Course: {dados[0][7]} | Picture: {dados[0][8]}')
 
     def update_student(self, nova_valores):
-        query = "UPDATE students SET name=?, email=?, tel=?, sex=?, data_of_birth=?, address=?, course=?, picture=? WHERE id=?"
+        query = "UPDATE students SET name=?, email=?, tel=?, sex=?, date_of_birth=?, address=?, course=?, picture=? WHERE id=?"
         self.c.execute(query, nova_valores)
         self.conn.commit()
 
@@ -60,5 +59,19 @@ class SistemadeRegistro:
 sistema_de_registro = SistemadeRegistro()
 
 # information
-# studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg')
-# sistema_de_registro.register_student(studant)
+
+studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg') 
+sistema_de_registro.register_student(studant)
+
+#see studants
+#all_students = sistema_de_registro.view_all_students()
+
+#procurar aluno
+# aluno = sistema_de_registro.search_student(3)
+
+#atualizar aluno
+#studant = ("Joao", "email", '555', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg', 1) 
+#studant = sistema_de_registro.update_student(studant)
+
+sistema_de_registro.delete_student(1)
+all_students = sistema_de_registro.view_all_students()
