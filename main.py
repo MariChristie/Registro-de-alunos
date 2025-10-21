@@ -60,7 +60,5 @@ class SistemadeRegistro:
 sistema_de_registro = SistemadeRegistro()
 
 # information
-
-studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg')
-
-sistema_de_registro.register_student(studant)
+# studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg')
+# sistema_de_registro.register_student(studant)
