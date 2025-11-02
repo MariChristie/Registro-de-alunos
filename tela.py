@@ -40,13 +40,13 @@ style.theme_use("clam")
 frame_logo = Frame(janela, width=850, height=52, bg=co6)
 frame_logo.grid(row=0, column=0, pady=0, padx=0, sticky=NSEW, columnspan=5)
 
-frame_botoes = Frame(janela, width=100, height=200, bg=co2, relief=RAISED)
+frame_botoes = Frame(janela, width=100, height=200, bg=co1, relief=RAISED)
 frame_botoes.grid(row=1, column=0, pady=1, padx=0, sticky=NSEW)
 
-frame_details = Frame(janela, width=800, height=100, bg=co2, relief=SOLID)
+frame_details = Frame(janela, width=800, height=100, bg=co1, relief=SOLID)
 frame_details.grid(row=1, column=1, pady=1, padx=10, sticky=NSEW)
 
-frame_tabela = Frame(janela, width=800, height=100, bg=co2, relief=SOLID)
+frame_tabela = Frame(janela, width=800, height=100, bg=co1, relief=SOLID)
 frame_tabela.grid(row=3, column=0, pady=0, padx=0, sticky=NSEW, columnspan=5)
 
 janela.mainloop()
