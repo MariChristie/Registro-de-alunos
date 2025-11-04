@@ -30,8 +30,8 @@ class SistemadeRegistro:
     def view_all_students(self):
         self.c.execute("SELECT * FROM students")
         dados = self.c.fetchall()
-        for i in dados:
-            print(f'ID: {i[0]} | Name: {i[1]} | Email: {i[2]} | Tel: {i[3]} | Sex: {i[4]} | Date of Birth: {i[5]} | Address: {i[6]} | Course: {i[7]} | Picture: {i[8]}')
+        
+        return dados
         
     def search_student(self, id):
         self.c.execute("SELECT * FROM students WHERE id=?", (id,))
@@ -60,8 +60,8 @@ sistema_de_registro = SistemadeRegistro()
 
 # information
 
-studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg') 
-sistema_de_registro.register_student(studant)
+#studant = ("Joao", "email", '123456', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg') 
+#sistema_de_registro.register_student(studant)
 
 #see studants
 #all_students = sistema_de_registro.view_all_students()
@@ -73,5 +73,5 @@ sistema_de_registro.register_student(studant)
 #studant = ("Joao", "email", '555', 'M', '01/01/2000', 'Address', 'Course', 'picture.jpg', 1) 
 #studant = sistema_de_registro.update_student(studant)
 
-sistema_de_registro.delete_student(1)
-all_students = sistema_de_registro.view_all_students()
+# sistema_de_registro.delete_student(1)
+# all_students = sistema_de_registro.view_all_students()

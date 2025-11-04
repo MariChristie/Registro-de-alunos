@@ -13,6 +13,9 @@ from PIL import ImageTk, Image
 from tkcalendar import Calendar, DateEntry
 from datetime import date
 
+# importando main
+from main import *
+
 # cores
 co0 = "#2e2d2b"  # Preta
 co1 = "#feffff"  # Branca   
@@ -48,5 +51,184 @@ frame_details.grid(row=1, column=1, pady=1, padx=10, sticky=NSEW)
 
 frame_tabela = Frame(janela, width=800, height=100, bg=co1, relief=SOLID)
 frame_tabela.grid(row=3, column=0, pady=0, padx=0, sticky=NSEW, columnspan=5)
+
+# Trabalhando no frame logo ---------------
+global image, imagem_strings, l_imagem
+
+app_lg = Image.open("ico/logo.png")
+app_lg = app_lg.resize((50,50))
+app_lg = ImageTk.PhotoImage(app_lg)
+app_logo = Label(frame_logo, image=app_lg, text="Sistema de Registro de alunos", width=850, compound=LEFT, anchor=NW, font=("Verdana 15"), bg=co6, fg=co1)
+app_logo.place(x=5, y=0) 
+
+
+# abrindo imagem
+
+imagem = Image.open('ico/logo.png')
+imagem = imagem.resize((130,130))
+imagem = ImageTk.PhotoImage(imagem)
+l_imagem = Label(frame_details, image=imagem, bg=co1, fg=co4)
+l_imagem.place(x=390, y=10) 
+
+# --------------- Criando funções para CRUD ---------------
+# função adicionar
+
+def add():
+    global imagem, imagem_strings, l_imagem
+
+    #obtendo os valores
+    name = name.get()
+    email = e_email.get()
+    tel = e_tel.get()
+    gender = c_gender.get()
+    date_of_birth = date_of_birth.get()
+    address = e_address.get()
+    course = c_curso.get()
+    img = imagem_strings
+
+    lista = [name, email, tel, gender, date_of_birth, address, course, img]
+
+
+
+# Criando os campos de entrada ---------------
+
+l_name = Label(frame_details, text="Name *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_name.place(x=4, y=10)
+e_name = Entry(frame_details, width=30, justify='left', relief='solid')
+e_name.place(x=7, y=40)
+
+l_email = Label(frame_details, text="Email *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_email.place(x=4, y=70)
+e_email = Entry(frame_details, width=30, justify='left', relief='solid')
+e_email.place(x=7, y=100)
+
+l_tel = Label(frame_details, text="Phone *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_tel.place(x=4, y=130)
+e_tel = Entry(frame_details, width=15, justify='left', relief='solid')
+e_tel.place(x=7, y=160)
+
+l_gender = Label(frame_details, text="Gender *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_gender.place(x=127, y=130)
+c_gender = ttk.Combobox(frame_details, width=7, font=("Ivy 8 bold"), justify='center')
+c_gender['values'] = ('M', 'F', 'The Other')
+c_gender.place(x=130, y=160)
+
+l_date_of_birth = Label(frame_details, text="Gender *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_date_of_birth.place(x=220, y=10)
+date_of_birth = DateEntry(frame_details, width=18, justify='center', background='darkblue', foreground='white', borderwith=2, year=2023)
+date_of_birth.place(x=224, y=40)
+
+l_address = Label(frame_details, text="Adress *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_address.place(x=220, y=70)
+e_address = Entry(frame_details, width=20, justify='left', relief='solid')
+e_address.place(x=224, y=100)
+
+curso = ["Engenharia", "Medicina", "Direito", "Arquitetura", "Administração", "Ciência da Computação"]
+
+l_curso = Label(frame_details, text="Curso *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_curso.place(x=220, y=130)
+c_curso = ttk.Combobox(frame_details, width=20, font=("Ivy 8 bold"), justify='center')
+c_curso['values'] = (curso)
+c_curso.place(x=224, y=160)
+
+# funcao para escolher imagem
+
+def escolher_imagem():
+    global image, imagem_strings, l_imagem
+
+    imagem = fd.askopenfilename()
+    imagem_strings=imagem
+
+    imagem = Image.open(imagem)
+    imagem = imagem.resize((130,130))
+    imagem = ImageTk.PhotoImage(imagem)
+    l_imagem = Label(frame_details, image=imagem, bg=co1, fg=co4)
+    l_imagem.place(x=390, y=10) 
+
+    l_imagem.image = imagem
+
+    botao_carregar['text'] = "Alterar foto"
+
+botao_carregar = Button(frame_details, command=escolher_imagem, text="Carregar foto".upper(), width=20, compound=CENTER, anchor=CENTER, overrelief=RIDGE, font=("Ivy 7 bold"), bg=co1, fg=co0)
+botao_carregar.place(x=390, y=160)
+
+# Tabeça de Alunos
+
+def mostrar_alunos():
+
+    #creating a treeview with dual scrollbars
+    list_header = ['id', 'Name', 'Emaiil', 'Phone', 'Gender', 'Date of Birth', 'Adress', 'Course']
+
+    # view all students
+    df_list = sistema_de_registro.view_all_students()
+
+    tree_aluno = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+
+    #vertical scrollbar
+    vsb = ttk.Scrollbar(frame_tabela, orient='vertical', command=tree_aluno.yview)
+    #horizontal scrollbar
+    hsb = ttk.Scrollbar(frame_tabela, orient='horizontal', command=tree_aluno.xview)
+
+    tree_aluno.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+    tree_aluno.grid(column=0, row=1, sticky='nsew')
+    vsb.grid(column=1, row=1, sticky='ns')
+    hsb.grid(column=0, row=2, sticky='ew')
+    frame_tabela.grid_rowconfigure(0, weight=12)
+
+    hd=["nw", "nw", "nw", "center", "center", "center", "center", "center", "center"]
+    h=[40, 150, 150, 70, 70, 70, 120, 100, 100]
+    n=0
+
+    for col in list_header:
+        tree_aluno.heading(col, text=col.title(), anchor=NW)
+        # adjust the column's width to the header string
+        tree_aluno.column(col, width=h[n], anchor=hd[n])
+
+        n+=1
+    for item in df_list:
+        tree_aluno.insert('', 'end', values=item)
+
+# Procurar aluno ---------------
+
+frame_procurar = Frame(frame_botoes, width=40, height=50, bg=co1, relief=RAISED)
+frame_procurar.grid(row=0, column=0, pady=10, padx=10, sticky=NSEW)
+
+l_name = Label(frame_procurar, text="Procurar aluno[Entra ID] *", anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_name.grid(row=0, column=0, pady=10, padx=0, sticky=NSEW)
+e_procurar = Entry(frame_procurar, width=5, justify='center', relief='solid', font=("Ivy 10"))
+e_procurar.grid(row=1, column=0, pady=10, padx=0, sticky=NSEW)
+
+botao_alterar = Button(frame_procurar, text="Procurar", width=9, anchor=CENTER, overrelief=RIDGE, font=("Ivy 7 bold"), bg=co1, fg=co0)
+botao_alterar.grid(row=1, column=1, pady=10, padx=0, sticky=NSEW)
+
+
+# chamar a tabela
+mostrar_alunos()
+
+
+# Botoões -----------------
+
+app_img_add = Image.open("ico/add.png")
+app_img_add = app_img_add.resize((25,25))
+app_img_add = ImageTk.PhotoImage(app_img_add)
+botao_add = Button(frame_botoes, image=app_img_add, relief=GROOVE, text=" Add", width=100, compound=LEFT, overrelief=RIDGE, font=("Ivy 11"), bg=co1, fg=co0)
+botao_add.grid(row=1, column=0, pady=5, padx=10, sticky=NSEW)
+
+app_img_update = Image.open("ico/update.png")
+app_img_update = app_img_update.resize((25,25))
+app_img_update= ImageTk.PhotoImage(app_img_update)
+botao_update = Button(frame_botoes, image=app_img_update, relief=GROOVE, text=" Update", width=100, compound=LEFT, overrelief=RIDGE, font=("Ivy 11"), bg=co1, fg=co0)
+botao_update.grid(row=2, column=0, pady=5, padx=10, sticky=NSEW)
+
+app_img_delete = Image.open("ico/delete.png")
+app_img_delete = app_img_delete.resize((25,25))
+app_img_delete= ImageTk.PhotoImage(app_img_delete)
+botao_delete = Button(frame_botoes, image=app_img_delete, relief=GROOVE, text=" Delete", width=100, compound=LEFT, overrelief=RIDGE, font=("Ivy 11"), bg=co1, fg=co0)
+botao_delete.grid(row=3, column=0, pady=5, padx=10, sticky=NSEW)
+
+# linha seperadora
+l_linha = Label(frame_botoes, relief=GROOVE, width=1, height=123, anchor=NW, font=("Ivy 1"), bg=co1, fg=co1)
+l_linha.place(x=235, y=15)
+
 
 janela.mainloop()
