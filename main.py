@@ -25,7 +25,7 @@ class SistemadeRegistro:
         self.conn.commit()
 
     #mostrando mensagem de sucesso
-    messagebox.showinfo("Sucess", "Student registered successfully!")
+    #messagebox.showinfo("Sucess", "Student registered successfully!")
 
     def view_all_students(self):
         self.c.execute("SELECT * FROM students")
@@ -37,7 +37,7 @@ class SistemadeRegistro:
         self.c.execute("SELECT * FROM students WHERE id=?", (id,))
         dados = self.c.fetchall()
 
-        print(f'ID: {dados[0][0]} | Name: {dados[0][1]} | Email: {dados[0][2]} | Tel: {dados[0][3]} | Sex: {dados[0][4]} | Date of Birth: {dados[0][5]} | Address: {dados[0][6]} | Course: {dados[0][7]} | Picture: {dados[0][8]}')
+        return dados
 
     def update_student(self, nova_valores):
         query = "UPDATE students SET name=?, email=?, tel=?, sex=?, date_of_birth=?, address=?, course=?, picture=? WHERE id=?"
