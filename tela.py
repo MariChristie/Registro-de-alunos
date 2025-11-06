@@ -86,8 +86,7 @@ def add():
     course = c_curso.get()
     img = imagem_strings
 
-    id_aluno = e_procurar.get()
-    lista = [name, email, tel, gender, date, address, course, img, id_aluno]
+    lista = [name, email, tel, gender, date, address, course, img]
 
     # verificando se a lista contém valores vazios
     for i in lista:
@@ -139,7 +138,8 @@ def procurar():
     e_email.insert(END, dados[2])      
     e_tel.insert(END, dados[3])        
     c_gender.set(dados[4])             
-    date_of_birth.set_date(dados[5])   
+    date_obj = date.fromisoformat(dados[5])
+    date_of_birth.set_date(date_obj)    
     e_address.insert(END, dados[6])   
     c_curso.set(dados[7])
 
